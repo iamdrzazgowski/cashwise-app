@@ -55,7 +55,7 @@ export default function HeroSection() {
                                     speedSegment={0.3}
                                     as='h1'
                                     className='mx-auto mt-8 max-w-4xl text-balance text-5xl max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem]'>
-                                    Modern Solutions for Customer Engagement
+                                    Modern management of your finances
                                 </TextEffect>
                                 <TextEffect
                                     per='line'
@@ -64,9 +64,9 @@ export default function HeroSection() {
                                     delay={0.5}
                                     as='p'
                                     className='mx-auto mt-8 max-w-2xl text-balance text-lg'>
-                                    Highly customizable components for building
-                                    modern websites and applications that look
-                                    and feel the way you mean it.
+                                    An intuitive app that helps you track your
+                                    expenses, plan your budget, and make smarter
+                                    financial decisions.
                                 </TextEffect>
 
                                 <AnimatedGroup
@@ -89,25 +89,13 @@ export default function HeroSection() {
                                             asChild
                                             size='lg'
                                             className='rounded-xl px-5 text-base'>
-                                            <Link href='#link'>
+                                            <Link href='/login'>
                                                 <span className='text-nowrap'>
-                                                    Start Building
+                                                    Start Saving
                                                 </span>
                                             </Link>
                                         </Button>
                                     </div>
-                                    <Button
-                                        key={2}
-                                        asChild
-                                        size='lg'
-                                        variant='ghost'
-                                        className='h-10.5 rounded-xl px-5'>
-                                        <Link href='#link'>
-                                            <span className='text-nowrap'>
-                                                Request a demo
-                                            </span>
-                                        </Link>
-                                    </Button>
                                 </AnimatedGroup>
                             </div>
                         </div>
