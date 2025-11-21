@@ -54,7 +54,7 @@ export default function HeroSection() {
                                     preset='fade-in-blur'
                                     speedSegment={0.3}
                                     as='h1'
-                                    className='mx-auto mt-8 max-w-4xl text-balance text-5xl max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem]'>
+                                    className='mx-auto mt-8 max-w-4xl text-balance text-5xl max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem] text-bold'>
                                     Modern management of your finances
                                 </TextEffect>
                                 <TextEffect
