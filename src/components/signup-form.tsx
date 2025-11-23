@@ -1,16 +1,42 @@
 'use client';
 
-import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import GoogleLogo from './ui/google-logo';
+import { SignUpFormValues } from '@/types/form';
+import { signUpAction } from '@/actions/auth';
+import FormErrorLabel from './ui/form-error';
 
 export default function SignUpForm() {
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        reset,
+        formState: { errors },
+    } = useForm<SignUpFormValues>();
+
+    const onSubmit: SubmitHandler<SignUpFormValues> = async ({
+        fullName,
+        email,
+        password,
+    }) => {
+        const formData = new FormData();
+
+        formData.append('fullName', fullName);
+        formData.append('email', email);
+        formData.append('password', password);
+
+        await signUpAction(formData);
+        reset();
+    };
+
     return (
         <form
-            action=''
+            onSubmit={handleSubmit(onSubmit)}
             className='bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]'>
             <div className='bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6'>
                 <div className='text-center'>
@@ -29,17 +55,37 @@ export default function SignUpForm() {
                         </Label>
                         <Input
                             type='text'
-                            required
-                            name='fullname'
                             id='fullname'
+                            {...register('fullName', {
+                                required: 'This field is required',
+                            })}
+                            className={`${
+                                errors.fullName?.message ? 'border-red-500' : ''
+                            }`}
                         />
+                        <FormErrorLabel error={errors.fullName?.message} />
                     </div>
 
                     <div className='space-y-1'>
                         <Label htmlFor='email' className='block text-sm'>
                             E-mail
                         </Label>
-                        <Input type='email' required name='email' id='email' />
+                        <Input
+                            type='email'
+                            id='email'
+                            {...register('email', {
+                                required: 'This field is required',
+                                pattern: {
+                                    value: /\S+@\S+\.\S+/,
+                                    message:
+                                        'Please provide a valid email address',
+                                },
+                            })}
+                            className={`${
+                                errors.email?.message ? 'border-red-500' : ''
+                            }`}
+                        />
+                        <FormErrorLabel error={errors.email?.message} />
                     </div>
 
                     <div className='space-y-1'>
@@ -50,27 +96,53 @@ export default function SignUpForm() {
                         <Input
                             type='password'
                             required
-                            name='pwd'
-                            id='pwd'
-                            className='input sz-md variant-mixed'
+                            id='password'
+                            {...register('password', {
+                                required: 'This field is required',
+                                minLength: {
+                                    value: 8,
+                                    message:
+                                        'Password needs a minimum of 8 characters',
+                                },
+                            })}
+                            className={`${
+                                errors.password?.message ? 'border-red-500' : ''
+                            }`}
                         />
+                        <FormErrorLabel error={errors.password?.message} />
                     </div>
 
                     <div className='space-y-1'>
-                        <Label htmlFor='pwd' className='text-sm'>
-                            Password
+                        <Label htmlFor='rpwd' className='text-sm'>
+                            Repeat password
                         </Label>
 
                         <Input
                             type='password'
-                            required
-                            name='pwd'
-                            id='pwd'
-                            className='input sz-md variant-mixed'
+                            id='passwordConfirm'
+                            {...register('passwordConfirm', {
+                                required: 'This field is required',
+                                validate: (value) => {
+                                    return (
+                                        value === getValues().password ||
+                                        'Passwords need to match'
+                                    );
+                                },
+                            })}
+                            className={`${
+                                errors.passwordConfirm?.message
+                                    ? 'border-red-500'
+                                    : ''
+                            }`}
+                        />
+                        <FormErrorLabel
+                            error={errors.passwordConfirm?.message}
                         />
                     </div>
 
-                    <Button className='w-full'>Sign In</Button>
+                    <Button type='submit' className='w-full'>
+                        Sign In
+                    </Button>
                 </div>
 
                 <div className='my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3'>
