@@ -10,6 +10,7 @@ import { SignUpFormValues } from '@/types/form';
 import FormErrorLabel from './ui/form-error';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { Spinner } from './ui/spinner';
 
 interface SignUpFormProps {
     signUpAction: (formData: FormData) => Promise<unknown>;
@@ -154,8 +155,8 @@ export default function SignUpForm({ signUpAction }: SignUpFormProps) {
                         />
                     </div>
 
-                    <Button type='submit' className='w-full'>
-                        {pending ? 'Signing up...' : 'Sign Up'}
+                    <Button type='submit' className='w-full' disabled={pending}>
+                        {pending ? <Spinner /> : 'Sign Up'}
                     </Button>
                 </div>
 

@@ -10,6 +10,7 @@ import { LoginFormValues } from '@/types/form';
 import FormErrorLabel from './ui/form-error';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { Spinner } from './ui/spinner';
 
 interface LoginFormProps {
     loginAction: (formData: FormData) => Promise<unknown>;
@@ -100,8 +101,8 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
                         <FormErrorLabel error={errors.password?.message} />
                     </div>
 
-                    <Button className='w-full'>
-                        {pending ? 'Signing in...' : 'Sign In'}
+                    <Button className='w-full' disabled={pending}>
+                        {pending ? <Spinner /> : 'Sign In'}
                     </Button>
                 </div>
 

@@ -12,4 +12,7 @@ export const auth = betterAuth({
         requireEmailVerification: false,
     },
     plugins: [nextCookies()],
+    session: {
+        expiresIn: 60 * 60 * 24 * 7,
+    },
 });

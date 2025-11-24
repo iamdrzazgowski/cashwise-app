@@ -1,4 +1,7 @@
 import React from 'react';
+import { AppSidebar } from '@/components/app-sidebar';
+
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 export default function DashboardLayout({
     children,
@@ -6,9 +9,9 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div>
-            <div>layout</div>
-            <div>{children}</div>
-        </div>
+        <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>{children}</SidebarInset>
+        </SidebarProvider>
     );
 }
