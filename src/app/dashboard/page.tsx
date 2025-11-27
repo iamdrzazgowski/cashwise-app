@@ -13,6 +13,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default async function Dashboard() {
     const session = await auth.api.getSession({ headers: await headers() });
+    console.log(session);
 
     return (
         <>

@@ -4,13 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import GoogleLogo from './ui/google-logo';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginFormValues } from '@/types/form';
 import FormErrorLabel from './ui/form-error';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Spinner } from './ui/spinner';
+import LoginWithGoogleAccount from './ui/login-google-account';
 
 interface LoginFormProps {
     loginAction: (formData: FormData) => Promise<unknown>;
@@ -114,9 +114,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
                     <hr className='border-dashed' />
                 </div>
 
-                <Button type='button' variant='outline' className='w-full'>
-                    <GoogleLogo />
-                </Button>
+                <LoginWithGoogleAccount />
             </div>
 
             <div className='p-3'>
