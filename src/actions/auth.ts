@@ -2,20 +2,26 @@
 
 import { auth } from '@/lib/auth';
 
-export async function signUpAction(formData: FormData) {
-    const data = {
-        name: formData.get('fullName')?.toString(),
-        email: formData.get('email')?.toString(),
-        password: formData.get('password')?.toString(),
-    };
+interface SignupData {
+    fullName: string;
+    email: string;
+    password: string;
+}
 
-    if (!data.email || !data.password || !data.name) {
+export async function signUpAction(data: SignupData) {
+    // const data = {
+    //     name: formData.get('fullName')?.toString(),
+    //     email: formData.get('email')?.toString(),
+    //     password: formData.get('password')?.toString(),
+    // };
+
+    if (!data.email || !data.password || !data.fullName) {
         throw new Error('Imię, email i hasło są wymagane');
     }
 
     const res = await auth.api.signUpEmail({
         body: {
-            name: data.name,
+            name: data.fullName,
             email: data.email,
             password: data.password,
         },
@@ -32,11 +38,16 @@ export async function signUpAction(formData: FormData) {
     };
 }
 
-export async function loginAction(formData: FormData) {
-    const data = {
-        email: formData.get('email')?.toString(),
-        password: formData.get('password')?.toString(),
-    };
+interface LoginData {
+    email: string;
+    password: string;
+}
+
+export async function loginAction(data: LoginData) {
+    // const data = {
+    //     email: formData.get('email')?.toString(),
+    //     password: formData.get('password')?.toString(),
+    // };
 
     if (!data.email || !data.password) {
         throw new Error('Email i hasło są wymagane');

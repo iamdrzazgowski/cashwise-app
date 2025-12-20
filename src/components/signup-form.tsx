@@ -13,7 +13,7 @@ import { Spinner } from './ui/spinner';
 import LoginWithGoogleAccount from './ui/login-google-account';
 
 interface SignUpFormProps {
-    signUpAction: (formData: FormData) => Promise<unknown>;
+    signUpAction: (formData: SignUpFormValues) => Promise<unknown>;
 }
 
 export default function SignUpForm({ signUpAction }: SignUpFormProps) {
@@ -32,14 +32,20 @@ export default function SignUpForm({ signUpAction }: SignUpFormProps) {
         email,
         password,
     }) => {
-        const formData = new FormData();
+        const data = {
+            fullName,
+            email,
+            password,
+        };
 
-        formData.append('fullName', fullName);
-        formData.append('email', email);
-        formData.append('password', password);
+        // const formData = new FormData();
+
+        // formData.append('fullName', fullName);
+        // formData.append('email', email);
+        // formData.append('password', password);
 
         startTransition(() => {
-            signUpAction(formData)
+            signUpAction(data)
                 .then(() => {
                     router.push('/dashboard');
                 })

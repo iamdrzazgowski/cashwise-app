@@ -13,7 +13,7 @@ import { Spinner } from './ui/spinner';
 import LoginWithGoogleAccount from './ui/login-google-account';
 
 interface LoginFormProps {
-    loginAction: (formData: FormData) => Promise<unknown>;
+    loginAction: (formData: LoginFormValues) => Promise<unknown>;
 }
 
 export default function LoginForm({ loginAction }: LoginFormProps) {
@@ -30,13 +30,17 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
         email,
         password,
     }) => {
-        const formData = new FormData();
+        const data = {
+            email,
+            password,
+        };
+        // const formData = new FormData();
 
-        formData.append('email', email);
-        formData.append('password', password);
+        // formData.append('email', email);
+        // formData.append('password', password);
 
         startTransition(() => {
-            loginAction(formData)
+            loginAction(data)
                 .then(() => {
                     router.push('/dashboard');
                 })
