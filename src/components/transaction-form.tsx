@@ -15,6 +15,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { DialogFooter } from './ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useTransition } from 'react';
+import { createTransactionAction } from '@/actions/transactions';
+import { Spinner } from './ui/spinner';
 
 export interface TransactionFormData {
     type: 'INCOME' | 'EXPENSE';
@@ -41,12 +44,20 @@ export default function TransactionForm({
             note: null,
         },
     });
+    const [pending, startTransition] = useTransition();
 
     const type = useWatch({ control, name: 'type' });
 
-    const onSubmit = (data: TransactionFormData) => {
-        console.log(data);
-        onSuccess();
+    const onSubmit = async (data: TransactionFormData) => {
+        startTransition(() => {
+            createTransactionAction(data)
+                .then(() => {
+                    onSuccess();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
     };
 
     return (
@@ -178,7 +189,9 @@ export default function TransactionForm({
                 <DialogClose asChild>
                     <Button variant='outline'>Cancel</Button>
                 </DialogClose>
-                <Button type='submit'>Save changes</Button>
+                <Button type='submit'>
+                    {pending ? <Spinner /> : 'Save changes'}
+                </Button>
             </DialogFooter>
         </form>
     );
