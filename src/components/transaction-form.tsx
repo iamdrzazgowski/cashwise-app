@@ -1,6 +1,5 @@
 'use client';
 
-import type React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,35 +14,37 @@ import { Textarea } from '@/components/ui/textarea';
 import { DialogFooter } from './ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useTransition } from 'react';
-import { createTransactionAction } from '@/actions/transactions';
+import { useEffect, useTransition } from 'react';
+import {
+    createTransactionAction,
+    updateTransactionAction,
+} from '@/actions/transactions';
 import { Spinner } from './ui/spinner';
+import { TransactionData, TransactionFormData } from '@/types/transaction';
+import { mapFormToTransaction } from '@/lib/transactions';
 
-export interface TransactionFormData {
-    id: string;
-    type: 'INCOME' | 'EXPENSE';
-    title: string;
-    category: string;
-    amount: number;
-    date: Date;
-    note: string | null;
+interface TransactionFormProps {
+    onSuccess: () => void;
+    defaultValues?: Partial<TransactionFormData>;
+    mode?: 'CREATE' | 'EDIT';
 }
 
 export default function TransactionForm({
     onSuccess,
-}: {
-    onSuccess: () => void;
-}) {
+    defaultValues,
+    mode = 'CREATE',
+}: TransactionFormProps) {
+    const defaultFormValues: Partial<TransactionFormData> = defaultValues
+        ? mapFormToTransaction(defaultValues)
+        : { type: 'INCOME' as const, note: null };
+
     const {
         register,
         handleSubmit,
         control,
         formState: { errors },
     } = useForm<TransactionFormData>({
-        defaultValues: {
-            type: 'INCOME',
-            note: null,
-        },
+        defaultValues: defaultFormValues,
     });
     const [pending, startTransition] = useTransition();
 
@@ -51,7 +52,18 @@ export default function TransactionForm({
 
     const onSubmit = async (data: TransactionFormData) => {
         startTransition(() => {
-            createTransactionAction(data)
+            const payload: TransactionData = {
+                ...data,
+                date: new Date(data.date),
+                id: data.id!,
+            };
+
+            const action =
+                mode === 'CREATE'
+                    ? createTransactionAction
+                    : updateTransactionAction;
+
+            action(payload)
                 .then(() => {
                     onSuccess();
                 })
@@ -191,7 +203,13 @@ export default function TransactionForm({
                     <Button variant='outline'>Cancel</Button>
                 </DialogClose>
                 <Button type='submit'>
-                    {pending ? <Spinner /> : 'Save changes'}
+                    {pending ? (
+                        <Spinner />
+                    ) : mode === 'EDIT' ? (
+                        'Save changes'
+                    ) : (
+                        'Add transaction'
+                    )}
                 </Button>
             </DialogFooter>
         </form>

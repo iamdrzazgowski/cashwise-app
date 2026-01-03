@@ -1,14 +1,5 @@
 import prisma from '../prisma';
-
-interface TransactionFormData {
-    id: string;
-    type: 'INCOME' | 'EXPENSE';
-    title: string;
-    category: string;
-    amount: number;
-    date: Date;
-    note: string | null;
-}
+import { TransactionData } from '../../types/transaction';
 
 export const transactionRepository = {
     findByUserId(userId: string) {
@@ -21,7 +12,7 @@ export const transactionRepository = {
             },
         });
     },
-    create(userId: string, transactionData: TransactionFormData) {
+    create(userId: string, transactionData: TransactionData) {
         return prisma.transaction.create({
             data: {
                 userId,
@@ -34,6 +25,18 @@ export const transactionRepository = {
             where: {
                 id: transactionId,
                 userId: userId,
+            },
+        });
+    },
+    update(
+        userId: string,
+        transactionId: string,
+        transactionData: Partial<Omit<TransactionData, 'id'>>
+    ) {
+        return prisma.transaction.update({
+            where: { userId, id: transactionId },
+            data: {
+                ...transactionData,
             },
         });
     },

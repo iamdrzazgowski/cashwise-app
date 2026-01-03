@@ -18,6 +18,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { deleteTransactionAction } from '@/actions/transactions';
+import EditTransactionDialog from './edit-transaction-dialog';
+import { useState } from 'react';
 
 interface Transaction {
     id: string;
@@ -34,6 +36,10 @@ export function TransactionsTable({
 }: {
     transactionsData: Transaction[];
 }) {
+    const [editTransaction, setEditTransaction] = useState<Transaction | null>(
+        null
+    );
+
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('pl-PL', {
             style: 'currency',
@@ -123,15 +129,19 @@ export function TransactionsTable({
                                             className='h-8 w-8'>
                                             <MoreHorizontalIcon className='h-4 w-4' />
                                             <span className='sr-only'>
-                                                Otwórz menu
+                                                Open menu
                                             </span>
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
                                         align='end'
                                         className='w-[160px] cursor-pointer'>
-                                        <DropdownMenuItem>
-                                            Edytuj
+                                        <DropdownMenuItem
+                                            onClick={() =>
+                                                setEditTransaction(transaction)
+                                            }
+                                            className='cursor-pointer'>
+                                            Edit
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem
@@ -141,7 +151,7 @@ export function TransactionsTable({
                                                 )
                                             }
                                             className='text-destructive cursor-pointer'>
-                                            Usuń
+                                            Delete
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -150,6 +160,16 @@ export function TransactionsTable({
                     ))}
                 </TableBody>
             </Table>
+            {editTransaction && (
+                <EditTransactionDialog
+                    open={!!editTransaction}
+                    setOpen={(open) => {
+                        if (!open) setEditTransaction(null);
+                    }}
+                    transactionData={editTransaction}
+                    key={editTransaction.id}
+                />
+            )}
         </div>
     );
 }
