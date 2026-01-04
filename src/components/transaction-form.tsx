@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { DialogFooter } from './ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useEffect, useTransition } from 'react';
+import { useTransition } from 'react';
 import {
     createTransactionAction,
     updateTransactionAction,
