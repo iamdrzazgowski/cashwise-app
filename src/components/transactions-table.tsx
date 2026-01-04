@@ -41,16 +41,16 @@ export function TransactionsTable({
     );
 
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('pl-PL', {
+        return new Intl.NumberFormat('en-US', {
             style: 'currency',
-            currency: 'PLN',
+            currency: 'USD',
         }).format(amount);
     };
 
     const formatDate = (date: Date | string): string => {
         const parsedDate = typeof date === 'string' ? new Date(date) : date;
 
-        return new Intl.DateTimeFormat('pl-PL', {
+        return new Intl.DateTimeFormat('en-US', {
             day: '2-digit',
             month: 'short',
             year: 'numeric',

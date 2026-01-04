@@ -11,9 +11,9 @@ export default function StatCard({
     variant = 'balance',
     icon,
 }: StatCardProps) {
-    const formatted = new Intl.NumberFormat('pl-PL', {
+    const formatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'PLN',
+        currency: 'USD',
     }).format(value);
 
     const variantStyles = {
