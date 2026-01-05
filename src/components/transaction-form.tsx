@@ -15,10 +15,6 @@ import { DialogFooter } from './ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTransition } from 'react';
-import {
-    createTransactionAction,
-    updateTransactionAction,
-} from '@/actions/transactions';
 import { Spinner } from './ui/spinner';
 import { TransactionData, TransactionFormData } from '@/types/transaction';
 import { mapFormToTransaction } from '@/lib/transactions';
@@ -27,12 +23,16 @@ interface TransactionFormProps {
     onSuccess: () => void;
     defaultValues?: Partial<TransactionFormData>;
     mode?: 'CREATE' | 'EDIT';
+    createTransactionAction?: (data: TransactionData) => Promise<void>;
+    updateTransactionAction?: (data: TransactionData) => Promise<void>;
 }
 
 export default function TransactionForm({
     onSuccess,
     defaultValues,
     mode = 'CREATE',
+    createTransactionAction,
+    updateTransactionAction,
 }: TransactionFormProps) {
     const defaultFormValues: Partial<TransactionFormData> = defaultValues
         ? mapFormToTransaction(defaultValues)
@@ -62,6 +62,17 @@ export default function TransactionForm({
                 mode === 'CREATE'
                     ? createTransactionAction
                     : updateTransactionAction;
+
+            if (!action) {
+                console.error(
+                    `Missing action for mode: ${mode}. Please provide ${
+                        mode === 'CREATE'
+                            ? 'createTransactionAction'
+                            : 'updateTransactionAction'
+                    }.`
+                );
+                return;
+            }
 
             action(payload)
                 .then(() => {

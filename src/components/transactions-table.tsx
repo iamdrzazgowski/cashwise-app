@@ -17,9 +17,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { deleteTransactionAction } from '@/actions/transactions';
 import EditTransactionDialog from './edit-transaction-dialog';
 import { useState } from 'react';
+import { TransactionData } from '@/types/transaction';
 
 interface Transaction {
     id: string;
@@ -33,8 +33,12 @@ interface Transaction {
 
 export function TransactionsTable({
     transactionsData,
+    updateTransactionAction,
+    deleteTransactionAction,
 }: {
     transactionsData: Transaction[];
+    updateTransactionAction: (data: TransactionData) => Promise<void>;
+    deleteTransactionAction: (transactionId: string) => Promise<void>;
 }) {
     const [editTransaction, setEditTransaction] = useState<Transaction | null>(
         null
@@ -58,7 +62,7 @@ export function TransactionsTable({
     };
 
     return (
-        <div className='w-full'>
+        <div className='w-full h-full'>
             <Table>
                 <TableHeader>
                     <TableRow className='hover:bg-transparent border-border'>
@@ -168,6 +172,7 @@ export function TransactionsTable({
                     }}
                     transactionData={editTransaction}
                     key={editTransaction.id}
+                    updateTransactionAction={updateTransactionAction}
                 />
             )}
         </div>

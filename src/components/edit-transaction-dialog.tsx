@@ -15,10 +15,12 @@ export default function EditTransactionDialog({
     open,
     setOpen,
     transactionData,
+    updateTransactionAction,
 }: {
     open: boolean;
     setOpen: (open: boolean) => void;
     transactionData: TransactionData;
+    updateTransactionAction: (data: TransactionData) => Promise<void>;
 }) {
     const handleSuccess = () => {
         setOpen(false);
@@ -39,6 +41,7 @@ export default function EditTransactionDialog({
                     onSuccess={handleSuccess}
                     defaultValues={mapFormToTransaction(transactionData)}
                     mode='EDIT'
+                    updateTransactionAction={updateTransactionAction}
                 />
             </DialogContent>
         </Dialog>

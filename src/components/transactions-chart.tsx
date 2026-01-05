@@ -58,7 +58,7 @@ export default function TransactionsChart({
     } satisfies ChartConfig;
 
     return (
-        <Card className='flex flex-col border-0 h-full'>
+        <Card className='flex flex-col border-0 h-full bg-transparent'>
             <CardHeader className='items-center pb-0'>
                 <CardTitle>Your Expenses</CardTitle>
                 <CardDescription>

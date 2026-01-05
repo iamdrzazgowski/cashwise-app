@@ -6,6 +6,11 @@ import { transactionRepository } from '@/lib/repositories/transaction.repository
 import { CreditCard } from 'lucide-react';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import {
+    createTransactionAction,
+    updateTransactionAction,
+    deleteTransactionAction,
+} from '@/actions/transactions';
 
 export default async function TransactionPage() {
     const session = await auth.api.getSession({ headers: await headers() });
@@ -34,7 +39,9 @@ export default async function TransactionPage() {
                         Manage your transactions
                     </p>
                 </div>
-                <AddTransactionDialog />
+                <AddTransactionDialog
+                    createTransactionAction={createTransactionAction}
+                />
             </div>
 
             <Card className='border-border'>
@@ -43,6 +50,12 @@ export default async function TransactionPage() {
                         {transactions.length > 0 ? (
                             <TransactionsTable
                                 transactionsData={transactions}
+                                updateTransactionAction={
+                                    updateTransactionAction
+                                }
+                                deleteTransactionAction={
+                                    deleteTransactionAction
+                                }
                             />
                         ) : (
                             <div className='flex h-full flex-col items-center justify-center text-muted-foreground text-sm gap-2'>

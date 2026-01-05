@@ -13,8 +13,13 @@ import {
 import { PlusIcon } from 'lucide-react';
 import TransactionForm from './transaction-form';
 import { useState } from 'react';
+import { TransactionData } from '@/types/transaction';
 
-export default function AddTransactionDialog() {
+export default function AddTransactionDialog({
+    createTransactionAction,
+}: {
+    createTransactionAction?: (data: TransactionData) => Promise<void>;
+}) {
     const [open, setOpen] = useState(false);
 
     const handleSuccess = () => {
@@ -38,7 +43,10 @@ export default function AddTransactionDialog() {
                     </DialogDescription>
                 </DialogHeader>
 
-                <TransactionForm onSuccess={handleSuccess} />
+                <TransactionForm
+                    onSuccess={handleSuccess}
+                    createTransactionAction={createTransactionAction}
+                />
             </DialogContent>
         </Dialog>
     );

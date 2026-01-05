@@ -7,6 +7,10 @@ import { CreditCard, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { headers } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import {
+    updateTransactionAction,
+    deleteTransactionAction,
+} from '@/actions/transactions';
 
 const now = new Date();
 const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -109,7 +113,7 @@ export default async function Dashboard() {
             </div>
 
             <div className='grid gap-4 md:grid-cols-2 h-full'>
-                <div className='bg-muted/50 rounded-xl h-full flex flex-col'>
+                <div className='bg-muted/50 rounded-xl h-full flex flex-col shadow-sm'>
                     <div className='flex items-center justify-between px-4 py-3 border-b border-muted'>
                         <h3 className='text-sm font-semibold'>
                             Your Transactions
@@ -122,10 +126,16 @@ export default async function Dashboard() {
                         </Link>
                     </div>
 
-                    <div className='flex-1 overflow-y-auto p-4 max-h-[480px] shadow-sm'>
+                    <div className='flex-1 overflow-y-auto p-4 max-h-[480px]'>
                         {transactions.length > 0 ? (
                             <TransactionsTable
                                 transactionsData={transactions}
+                                updateTransactionAction={
+                                    updateTransactionAction
+                                }
+                                deleteTransactionAction={
+                                    deleteTransactionAction
+                                }
                             />
                         ) : (
                             <div className='flex h-full flex-col items-center justify-center text-muted-foreground text-sm gap-2'>
