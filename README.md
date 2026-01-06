@@ -87,3 +87,15 @@ npm run dev
 -   Better Auth – secure user authentication and authorization.
 -   Tailwind CSS & Shadcn UI – styling and ready-to-use UI components.
 -   React Hook Form – form management and validation.
+
+---
+
+## Gallery
+
+![Home Page](https://github.com/user-attachments/assets/ee94cce7-1f6d-4c38-95a0-22c0321ee09b)
+![Login](https://github.com/user-attachments/assets/30a3a5be-7a17-40a7-a55d-213636b06e7f)
+![Dashboard](https://github.com/user-attachments/assets/665d05a7-9c7b-42e1-acbb-81947da30c73)
+![Transactions Page](https://github.com/user-attachments/assets/1e44fb7b-cc3a-440d-b716-621468a52da3)
+![Add transaction](https://github.com/user-attachments/assets/d24f3a76-27e2-42e6-b77e-9e1f6291f660)
+![Edit transaction](https://github.com/user-attachments/assets/4d7a65a9-ba68-4b96-9a00-6dd1e03738d0)
+![Not found page](https://github.com/user-attachments/assets/49e8d6d7-8011-4b8f-9675-462e87ed1a44)
