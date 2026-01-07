@@ -176,7 +176,7 @@ export default function TransactionForm({
                 </div>
 
                 <div className='space-y-2'>
-                    <Label htmlFor='amount'>Amount (PLN)</Label>
+                    <Label htmlFor='amount'>Amount (USD)</Label>
                     <Input
                         id='amount'
                         type='number'
